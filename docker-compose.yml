@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  ise-exporter:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    ports:
+      - 3000:3000
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    environment:
+      - PROMETHEUS_USERNAME=admin
+      - PROMETHEUS_PASSWORD=admin
+      - PROMETHEUS_URL=http://localhost:9090
+      - PROMETHEUS_TOKEN=
+    depends_on:
+      - ise-exporter
+    restart: always

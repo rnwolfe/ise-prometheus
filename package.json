@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "start": "node metrics.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "prom-client": "^14.0.1",
+    "node-ise": "git+https://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:x-oauth-basic@github.com/rnwolfe/node-ise.git#feature/create-endpoint"
+  }
+}
