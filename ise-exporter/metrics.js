@@ -2,34 +2,74 @@ const client = require('prom-client');
 const ise = require('./ise-setup.js');
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000;
 
 const Gauge = client.Gauge;
 const collectDefaultMetrics = client.collectDefaultMetrics;
 const register = client.register;
 
 function getMetrics() {
-  const [ cpu, memory, latency ] = resetMetrics();
-  
+  const [cpu, memory, latency] = resetMetrics();
+  collectDefaultMetrics({ prefix: 'ise_exporter_' });
+
   return ise
     .login()
-    .then(() => ise.getSystemSummary())
-    .then((summary) => {
-      const cpuData = summary['60MIN'][0].CPU[0];
-      const memoryData = summary['60MIN'][0].Memory[0];
-      const latencyData = summary['60MIN'][0].Latency[0];
+    .then(() => Promise.all([
+      ise.getSystemSummary(),
+      ise.getEndpointGroupChartData()
+    ]))
+    .then((systemSummary, endpointGroups) => {
+      console.log(systemSummary);
+      if (systemSummary !== 'not found') {
+        // SYSTEM METRICS
+        // Iterate through each node and add to the metrics with the appropriate label.
+        systemSummary['60MIN'].forEach((system) => {
+          const nodeName = system.title;
+          const nodeType = system.nodeType.replace('PAP', 'PAN').replace('PDP', 'PSN');
+          // Only getting the first entry as it is the most recent.
+          cpu.set({
+            node: nodeName,
+            personas: nodeType
+          }, parseInt(system.CPU[0]));
+          memory.set({
+            node: nodeName,
+            personas: nodeType
+          }, parseInt(system.Memory[0]));
+          latency.set({
+            node: nodeName,
+            personas: nodeType
+          }, parseInt(system.Latency[0]));
+        });
+      }
 
-      collectDefaultMetrics({ prefix: 'ise_exporter_' });
-
-      cpu.set(parseInt(cpuData.value));
-      memory.set(parseInt(memoryData.value));
-      latency.set(parseInt(latencyData.value));
-
+      // ENDPOINT GROUP DATA
+      /*
+          workstations: '853',
+          cameras: '100',
+          'entertaintment devices': '6',
+          'ip-phones': '700',
+          'home network devices': '10',
+          'medical devices': '2',
+          'mobile devices': '2312',
+          'infrastructure network devices': '19',
+          misc: '1345'
+      */
+      const groups = new Gauge({
+        name: 'ise_endpoint_groups',
+        help: 'ise endpoint groups',
+        labelNames: ['endpoint_group'],
+      });
+      const groupArray = Object.entries(endpointGroups);
+      groupArray.forEach((group) => {
+        groups.set({
+          endpoint_group: group[0]
+        }, parseInt(group[1]));
+      });
       return register.metrics();
     }).catch((err) => {
       console.trace(err);
       // Exiting so that container will restart to ensure metrics are collected.
-      process.exit(1);
+      // process.exit(1);
     });
 }
 
@@ -40,19 +80,19 @@ function resetMetrics() {
   const cpu = new Gauge({
     name: 'ise_cpu',
     help: 'ise cpu usage',
-    labelNames: ['name', 'type'],
+    labelNames: ['node', 'personas'],
   });
 
   const memory = new Gauge({
     name: 'ise_memory',
     help: 'ise memory usage',
-    labelNames: ['name', 'type'],
+    labelNames: ['node', 'personas'],
   });
 
   const latency = new Gauge({
     name: 'ise_auth_latency',
     help: 'ise authentication latency',
-    labelNames: ['name', 'type'],
+    labelNames: ['node', 'personas'],
   });
 
   return [cpu, memory, latency];
