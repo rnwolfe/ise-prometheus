@@ -26,47 +26,24 @@
   "liveNow": false,
   "panels": [
     {
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "memory usage",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "mode": "thresholds"
           },
           "mappings": [],
+          "max": 100,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 60
               },
               {
                 "color": "red",
@@ -79,23 +56,162 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 5,
         "w": 8,
         "x": 0,
         "y": 0
       },
-      "id": 6,
+      "id": 18,
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
       },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": false,
+          "expr": "ise_cpu{}",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Gauge",
+      "type": "gauge"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 60
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "id": 19,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": false,
+          "expr": "ise_cpu{}",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Memory Gauge",
+      "type": "gauge"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 800,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 200
+              },
+              {
+                "color": "red",
+                "value": 400
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 20,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.4.1",
       "targets": [
         {
           "datasource": {
@@ -103,15 +219,16 @@
             "uid": "myK-hBf7k"
           },
           "exemplar": true,
-          "expr": "ise_memory{}",
-          "hide": false,
+          "expr": "sum(sum_over_time(ise_auth_latency[1m])) / sum(count_over_time(ise_auth_latency[1m]))",
+          "instant": false,
           "interval": "",
-          "legendFormat": "{{node}} - {{personas}}",
+          "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Memory Usage",
-      "type": "timeseries"
+      "title": "Auth Latency (1m avg)",
+      "type": "gauge"
     },
     {
       "description": "",
@@ -169,8 +286,8 @@
       "gridPos": {
         "h": 8,
         "w": 8,
-        "x": 8,
-        "y": 0
+        "x": 0,
+        "y": 5
       },
       "id": 4,
       "options": {
@@ -198,6 +315,94 @@
         }
       ],
       "title": "CPU Usage",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "memory usage",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 5
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_memory{}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{node}} - {{personas}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Memory Usage",
       "type": "timeseries"
     },
     {
@@ -259,7 +464,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 0
+        "y": 5
       },
       "id": 2,
       "options": {
@@ -311,7 +516,7 @@
         "h": 13,
         "w": 4,
         "x": 0,
-        "y": 8
+        "y": 13
       },
       "id": 9,
       "options": {
@@ -411,7 +616,7 @@
         "h": 13,
         "w": 7,
         "x": 4,
-        "y": 8
+        "y": 13
       },
       "id": 8,
       "options": {
@@ -465,7 +670,7 @@
         "h": 13,
         "w": 6,
         "x": 11,
-        "y": 8
+        "y": 13
       },
       "id": 11,
       "options": {
@@ -562,7 +767,7 @@
         "h": 13,
         "w": 7,
         "x": 17,
-        "y": 8
+        "y": 13
       },
       "id": 12,
       "options": {
@@ -613,7 +818,7 @@
         "h": 12,
         "w": 4,
         "x": 0,
-        "y": 21
+        "y": 26
       },
       "id": 14,
       "options": {
@@ -672,7 +877,7 @@
         "h": 12,
         "w": 4,
         "x": 4,
-        "y": 21
+        "y": 26
       },
       "id": 16,
       "options": {
@@ -725,6 +930,6 @@
   "timezone": "",
   "title": "Cisco ISE Dashboard",
   "uid": "5tkqvEf7z",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
