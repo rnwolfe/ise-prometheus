@@ -2,11 +2,13 @@ version: '3'
 services:
 
   ise-exporter:
+    container_name: ise-exporter
     build:
       dockerfile: Dockerfile
-      context: ./
+      context: ./ise-exporter
     ports:
       - 3000:3000
+    restart: always
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -24,3 +26,11 @@ services:
     depends_on:
       - ise-exporter
     restart: always
+  grafana:
+    container_name: grafana
+    build: 
+      dockerfile: Dockerfile
+      context: ./grafana
+    image: grafana/grafana-oss
+    ports:
+      - 3001:3000
