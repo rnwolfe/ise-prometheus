@@ -32,6 +32,182 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": 22,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_total_endpoints{type=\"total\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Endpoints",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 0
+      },
+      "id": 24,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_total_endpoints{type=\"active\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Active Sessions",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 0
+      },
+      "id": 25,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_total_endpoints{type=\"byod\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "BYOD Endpoints",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
           "max": 100,
           "min": 0,
           "thresholds": {
@@ -56,9 +232,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 0,
+        "h": 4,
+        "w": 2,
+        "x": 9,
         "y": 0
       },
       "id": 18,
@@ -125,9 +301,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 8,
+        "h": 4,
+        "w": 2,
+        "x": 11,
         "y": 0
       },
       "id": 19,
@@ -193,9 +369,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 16,
+        "h": 4,
+        "w": 2,
+        "x": 13,
         "y": 0
       },
       "id": 20,
@@ -229,6 +405,183 @@
       ],
       "title": "Auth Latency (1m avg)",
       "type": "gauge"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 0
+      },
+      "id": 27,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_total_endpoints{type=\"rejected\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Rejected Endpoints",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 0
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_total_endpoints{type=\"anomalous\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Anamolous Endpoints",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 0
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_authenticated_guests{}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Authenticated Guests",
+      "type": "stat"
     },
     {
       "description": "",
@@ -287,7 +640,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 5
+        "y": 4
       },
       "id": 4,
       "options": {
@@ -374,7 +727,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 5
+        "y": 4
       },
       "id": 6,
       "options": {
@@ -464,7 +817,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 5
+        "y": 4
       },
       "id": 2,
       "options": {
@@ -516,7 +869,7 @@
         "h": 13,
         "w": 4,
         "x": 0,
-        "y": 13
+        "y": 12
       },
       "id": 9,
       "options": {
@@ -616,7 +969,7 @@
         "h": 13,
         "w": 7,
         "x": 4,
-        "y": 13
+        "y": 12
       },
       "id": 8,
       "options": {
@@ -670,7 +1023,7 @@
         "h": 13,
         "w": 6,
         "x": 11,
-        "y": 13
+        "y": 12
       },
       "id": 11,
       "options": {
@@ -767,7 +1120,7 @@
         "h": 13,
         "w": 7,
         "x": 17,
-        "y": 13
+        "y": 12
       },
       "id": 12,
       "options": {
@@ -818,7 +1171,7 @@
         "h": 12,
         "w": 4,
         "x": 0,
-        "y": 26
+        "y": 25
       },
       "id": 14,
       "options": {
@@ -877,7 +1230,7 @@
         "h": 12,
         "w": 4,
         "x": 4,
-        "y": 26
+        "y": 25
       },
       "id": 16,
       "options": {
@@ -930,6 +1283,6 @@
   "timezone": "",
   "title": "Cisco ISE Dashboard",
   "uid": "5tkqvEf7z",
-  "version": 9,
+  "version": 2,
   "weekStart": ""
 }

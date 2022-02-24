@@ -20,10 +20,28 @@ function getMetrics() {
       ise.getEndpointGroupChartData(),
       ise.getEndpointPolicyChartData(),
       ise.getIdentityGroupChartData(),
-      ise.getNetworkDevices()
+      ise.getNetworkDevices(),
+      ise.getTotalEndpoints(),
+      ise.getActiveEndpoints(),
+      ise.getRejectedEndpoints(),
+      ise.getAnomalousEndpoints(),
+      ise.getByodEndpoints(),
+      ise.getAuthenticatedGuests()
     ]))
     .then(results => {
-      const [systemSummary, logicalProfiles, endpointProfiles, endpointIdentityGroups, networkDevices] = results;
+      const [
+        systemSummary,
+        logicalProfiles,
+        endpointProfiles,
+        endpointIdentityGroups,
+        networkDevices,
+        totalEndpoints,
+        activeEndpoints,
+        rejectedEndpoints,
+        anomalousEndpoints,
+        byodEndpoints,
+        authenticatedGuests
+      ] = results;
       if (systemSummary !== 'not found') {
         // SYSTEM METRICS
         // Iterate through each node and add to the metrics with the appropriate label.
@@ -84,7 +102,15 @@ function getMetrics() {
         }, parseInt(device.NoOfDevicesPerNad));
       });
 
+      // ENDPOINT METRICS
+      gauges.totalEndpoints.set({ type: 'total' }, parseInt(totalEndpoints));
+      gauges.totalEndpoints.set({ type: 'active' }, parseInt(activeEndpoints));
+      gauges.totalEndpoints.set({ type: 'rejected' }, parseInt(rejectedEndpoints));
+      gauges.totalEndpoints.set({ type: 'anomalous' }, parseInt(anomalousEndpoints));
+      gauges.totalEndpoints.set({ type: 'byod' }, parseInt(byodEndpoints));
 
+      // GUEST METRICS
+      gauges.authenticatedGuests.set(parseInt(authenticatedGuests));
 
       return register.metrics();
     }).catch((err) => {
@@ -97,50 +123,54 @@ function getMetrics() {
 function resetMetrics() {
   register.clear();
 
-  // export prometheus metrics for cpu, memory, and latency
-  const cpu = new Gauge({
-    name: 'ise_cpu',
-    help: 'ise cpu usage',
-    labelNames: ['node', 'personas'],
-  });
+  const gauges = {
+    cpu: new Gauge({
+      name: 'ise_cpu',
+      help: 'ise cpu usage',
+      labelNames: ['node', 'personas'],
+    }),
+    memory: new Gauge({
+      name: 'ise_memory',
+      help: 'ise memory usage',
+      labelNames: ['node', 'personas'],
+    }),
+    latency: new Gauge({
+      name: 'ise_auth_latency',
+      help: 'ise authentication latency',
+      labelNames: ['node', 'personas'],
+    }),
+    logicalProfiles: new Gauge({
+      name: 'ise_logical_profiles',
+      help: 'ise logical profiles',
+      labelNames: ['logical_profile'],
+    }),
+    endpointProfiles: new Gauge({
+      name: 'ise_endpoint_profiles',
+      help: 'ise endpoint profiles',
+      labelNames: ['endpoint_profile'],
+    }),
+    endpointIdentityGroups: new Gauge({
+      name: 'ise_endpoint_identity_groups',
+      help: 'ise endpoint identity groups',
+      labelNames: ['identity_group'],
+    }),
+    networkDevices: new Gauge({
+      name: 'ise_endpoints_by_network_device',
+      help: 'ise endpoints by network device',
+      labelNames: ['network_device', 'device_location', 'device_type'],
+    }),
+    totalEndpoints: new Gauge({
+      name: 'ise_total_endpoints',
+      help: 'ise total endpoints',
+      labelNames: ['type']
+    }),
+    authenticatedGuests: new Gauge({
+      name: 'ise_authenticated_guests',
+      help: 'ise authenticated guests',
+    })
+  }
 
-  const memory = new Gauge({
-    name: 'ise_memory',
-    help: 'ise memory usage',
-    labelNames: ['node', 'personas'],
-  });
-
-  const latency = new Gauge({
-    name: 'ise_auth_latency',
-    help: 'ise authentication latency',
-    labelNames: ['node', 'personas'],
-  });
-
-  const logicalProfiles = new Gauge({
-    name: 'ise_logical_profiles',
-    help: 'ise logical profiles',
-    labelNames: ['logical_profile'],
-  });
-
-  const endpointProfiles = new Gauge({
-    name: 'ise_endpoint_profiles',
-    help: 'ise endpoint profiles',
-    labelNames: ['endpoint_profile'],
-  });
-
-  const endpointIdentityGroups = new Gauge({
-    name: 'ise_endpoint_identity_groups',
-    help: 'ise endpoint identity groups',
-    labelNames: ['identity_group'],
-  });
-
-  const networkDevices = new Gauge({
-    name: 'ise_endpoints_by_network_device',
-    help: 'ise endpoints by network device',
-    labelNames: ['network_device', 'device_location', 'device_type'],
-  });
-
-  return { cpu, memory, latency, logicalProfiles, endpointProfiles, endpointIdentityGroups, networkDevices };
+  return gauges;
 }
 
 
