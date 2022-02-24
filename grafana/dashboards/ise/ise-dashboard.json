@@ -81,9 +81,9 @@
             "type": "prometheus",
             "uid": "myK-hBf7k"
           },
-          "exemplar": false,
+          "exemplar": true,
           "expr": "ise_cpu{}",
-          "instant": true,
+          "instant": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -150,9 +150,9 @@
             "type": "prometheus",
             "uid": "myK-hBf7k"
           },
-          "exemplar": false,
+          "exemplar": true,
           "expr": "ise_cpu{}",
-          "instant": true,
+          "instant": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -256,7 +256,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": 120000,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -343,7 +343,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": 120000,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -433,7 +433,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": 120000,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -586,7 +586,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": 120000,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -737,7 +737,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": 120000,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -915,7 +915,7 @@
       "type": "piechart"
     }
   ],
-  "refresh": "30s",
+  "refresh": "",
   "schemaVersion": 35,
   "style": "dark",
   "tags": [],
@@ -930,6 +930,6 @@
   "timezone": "",
   "title": "Cisco ISE Dashboard",
   "uid": "5tkqvEf7z",
-  "version": 6,
+  "version": 9,
   "weekStart": ""
 }

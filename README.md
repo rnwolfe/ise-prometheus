@@ -29,5 +29,14 @@ You should then be able to access items using the following information:
 
 To jump right to the pre-built ISE Dashboard, [try this link](http://localhost:3001/d/5tkqvEf7z/cisco-ise-dashboard?orgId=1&refresh=30s). Otherwise, jump through the Dashboard directory in the interface.
 
+## Considerations
+### Cisco ISE Account
+The UI API of Cisco ISE is used, as implied, for the ISE UI itself. This means that things that occur in the UI occur with the API in many cases. 
+
+The biggest implication of this is that you can only have so many concurrent sessions logged in with the same admin user as well as in total. ISE does its best to enforce this by kicking out the oldest sessions for new Super Admin logins, but disallows any other admin role while at max sessions. 
+
+So, when choosing an account for the ISE Exporter, it being a super admin is the most reliable way to ensure it most frequently gets access. The UI API library (`node-ise`) does not currently implement a consistently successful logout method which contributes to this problem.
+
+This usually does not happen for long stretches of time and the Grafana charts combat this by auto-filling gaps in data that are under 65 seconds. This can be tweaked in the panel settings of the ISE Dashboard.
 ## Example Dashboard
 ![Example ISE Dashboard](/assets/images/ise-grafana-example.png "San Juan Mountains")
