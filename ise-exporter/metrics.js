@@ -26,7 +26,12 @@ function getMetrics() {
       ise.getRejectedEndpoints(),
       ise.getAnomalousEndpoints(),
       ise.getByodEndpoints(),
-      ise.getAuthenticatedGuests()
+      ise.getAuthenticatedGuests(),
+      ise.getRadiusLiveLogCounters(),
+      ise.getTopCompromisedEndpoints(),
+      ise.getTopThreats(),
+      ise.getCompromisedEndpointsOverTime(),
+      ise.getTotalVulnerableEndpoints()
     ]))
     .then(results => {
       const [
@@ -40,7 +45,12 @@ function getMetrics() {
         rejectedEndpoints,
         anomalousEndpoints,
         byodEndpoints,
-        authenticatedGuests
+        authenticatedGuests,
+        radiusLiveLogCounters,
+        topCompromisedEndpoints,
+        topThreats,
+        compromisedEndpointsOverTime,
+        totalVulnerableEndpoints
       ] = results;
       if (systemSummary !== 'not found') {
         // SYSTEM METRICS
@@ -112,6 +122,62 @@ function getMetrics() {
       // GUEST METRICS
       gauges.authenticatedGuests.set(parseInt(authenticatedGuests));
 
+      // RADIUS LIVE LOG METRICS
+      gauges.misconfiguredCount.set({ type: 'misconfigured_nas' }, parseInt(radiusLiveLogCounters.misConfiguredNasCount));
+      gauges.misconfiguredCount.set({ type: 'misconfigured_supplicant' }, parseInt(radiusLiveLogCounters.misConfiguredSuppCount));
+      gauges.misconfiguredPercent.set({ type: 'misconfigured_nas' }, parseFloat(radiusLiveLogCounters.percentMisConfiguredNasCount));
+      gauges.misconfiguredPercent.set({ type: 'misconfigured_supplicant' }, parseFloat(radiusLiveLogCounters.percentMisConfiguredSuppCount));
+      gauges.radiusDropCount.set(parseInt(radiusLiveLogCounters.radiusDropCount));
+      gauges.radiusDropPercent.set(parseFloat(radiusLiveLogCounters.percentRadiusDropCount));
+      gauges.radiusRepeatCount.set(parseInt(radiusLiveLogCounters.retryCount));
+      gauges.radiusRepeatPercent.set(parseFloat(radiusLiveLogCounters.percentRetryCount));
+      gauges.eapTimeoutCount.set(parseInt(radiusLiveLogCounters.eapTimeoutCount));
+      gauges.eapTimeoutPercent.set(parseFloat(radiusLiveLogCounters.percentEapTimeoutCount));
+      gauges.reauthCount.set(parseInt(radiusLiveLogCounters.totalRAuthCount));
+      gauges.reauthPercent.set(parseFloat(radiusLiveLogCounters.percentTotalRAuthCount));
+
+      // THREAT METRICS
+      gauges.topCompromisedEndpoints.set({ status: 'connected' }, parseInt(topCompromisedEndpoints.connected));
+      gauges.topCompromisedEndpoints.set({ status: 'disconnected' }, parseInt(topCompromisedEndpoints.disconnected));
+      gauges.topVulnerableEndpoints.set({ status: 'connected' }, parseInt(totalVulnerableEndpoints.connected));
+      gauges.topVulnerableEndpoints.set({ status: 'disconnected' }, parseInt(totalVulnerableEndpoints.disconnected));
+
+      // Threat metrics by threat name
+      Object.entries(topThreats.dataset).forEach((threat) => {
+        const threatName = threat[0];
+        const threatData = threat[1];
+        gauges.topThreatsByThreat.set({ threat_name: threatName, severity: threatData.severity, status: 'connected' }, parseInt(threatData.endpoints.connected));
+        gauges.topThreatsByThreat.set({ threat_name: threatName, severity: threatData.severity, status: 'disconnected' }, parseInt(threatData.endpoints.disconnected));
+        gauges.topThreatsByThreat.set({ threat_name: threatName, severity: threatData.severity, status: 'all' }, parseInt(threatData.endpoints.disconnected + threatData.endpoints.connected));
+      });
+
+      // Threat metrics aggregated by threat severity
+      const threatsBySeverity = [];
+      topThreats.labels.forEach((severity) => {
+        // Find all threats with the given severity.
+        const filteredThreats = Object.entries(topThreats.dataset).filter(
+          (threat) => threat[1].severity === severity
+        );
+        const connected = filteredThreats.reduce(
+          (previousValue, currentValue) =>
+            previousValue + currentValue[1].endpoints.connected,
+          0
+        );
+        const disconnected = filteredThreats.reduce(
+          (previousValue, currentValue) =>
+            previousValue + currentValue[1].endpoints.disconnected,
+          0
+        );
+        threatsBySeverity.push({
+          severity,
+          metrics: { connected, disconnected }
+        });
+      });
+      threatsBySeverity.forEach((threat) => {
+        gauges.topThreatsBySeverity.set({ severity: threat.severity, status: 'connected' }, threat.metrics.connected);
+        gauges.topThreatsBySeverity.set({ severity: threat.severity, status: 'disconnected' }, threat.metrics.disconnected);
+        gauges.topThreatsBySeverity.set({ severity: threat.severity, status: 'all' }, threat.metrics.connected + threat.metrics.disconnected);
+      });
       return register.metrics();
     }).catch((err) => {
       console.trace(err);
@@ -167,7 +233,69 @@ function resetMetrics() {
     authenticatedGuests: new Gauge({
       name: 'ise_authenticated_guests',
       help: 'ise authenticated guests',
-    })
+    }),
+    misconfiguredCount: new Gauge({
+      name: 'ise_misconfigured_count',
+      help: 'ise misconfigured count',
+      labelNames: ['type']
+    }),
+    misconfiguredPercent: new Gauge({
+      name: 'ise_misconfigured_percent',
+      help: 'ise misconfigured percent',
+      labelNames: ['type']
+    }),
+    radiusRepeatCount: new Gauge({
+      name: 'ise_radius_repeat_count',
+      help: 'Authentication requests repeated in the last 24 hours with no change in identity context, network device, and authorization.',
+    }),
+    radiusRepeatPercent: new Gauge({
+      name: 'ise_radius_repeat_percent',
+      help: 'Percentage of authentication requests repeated in the last 24 hours with no change in identity context, network device, and authorization.',
+    }),
+    radiusDropCount: new Gauge({
+      name: 'ise_radius_drop_count',
+      help: 'Supplicants that stopped responding in the middle of the conversation in the last 24 hours.',
+    }),
+    radiusDropPercent: new Gauge({
+      name: 'ise_radius_drop_percent',
+      help: 'Percentage of supplicants that stopped responding in the middle of the conversation in the last 24 hours.',
+    }),
+    eapTimeoutCount: new Gauge({
+      name: 'ise_eap_timeout_count',
+      help: 'ise eap timeout count',
+    }),
+    eapTimeoutPercent: new Gauge({
+      name: 'ise_eap_timeout_percent',
+      help: 'ise eap timeout percent',
+    }),
+    reauthCount: new Gauge({
+      name: 'ise_reauth_count',
+      help: 'ise reauth count',
+    }),
+    reauthPercent: new Gauge({
+      name: 'ise_reauth_percent',
+      help: 'ise reauth percent',
+    }),
+    topCompromisedEndpoints: new Gauge({
+      name: 'ise_top_compromised_endpoints_count',
+      help: 'ise top compromised endpoints count',
+      labelNames: ['status']
+    }),
+    topVulnerableEndpoints: new Gauge({
+      name: 'ise_top_vulnerable_endpoints_count',
+      help: 'ise top vulnerable endpoints count',
+      labelNames: ['status']
+    }),
+    topThreatsByThreat: new Gauge({
+      name: 'ise_top_threats_by_threat_count',
+      help: 'ise top threats by threat count',
+      labelNames: ['threat_name', 'severity', 'status']
+    }),
+    topThreatsBySeverity: new Gauge({
+      name: 'ise_top_threats_by_severity_count',
+      help: 'ise top threats by severity count',
+      labelNames: ['severity', 'status']
+    }),
   }
 
   return gauges;

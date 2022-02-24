@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 2,
-  "id": 1,
+  "id": 5,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -46,7 +46,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
+        "w": 2,
         "x": 0,
         "y": 0
       },
@@ -105,8 +105,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 3,
+        "w": 2,
+        "x": 2,
         "y": 0
       },
       "id": 24,
@@ -164,8 +164,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 6,
+        "w": 2,
+        "x": 4,
         "y": 0
       },
       "id": 25,
@@ -202,6 +202,65 @@
       "type": "stat"
     },
     {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 6,
+        "y": 0
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_authenticated_guests{}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Authenticated Guests",
+      "type": "stat"
+    },
+    {
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -234,7 +293,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 9,
+        "x": 8,
         "y": 0
       },
       "id": 18,
@@ -303,7 +362,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 11,
+        "x": 10,
         "y": 0
       },
       "id": 19,
@@ -371,7 +430,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 13,
+        "x": 12,
         "y": 0
       },
       "id": 20,
@@ -428,8 +487,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 15,
+        "w": 2,
+        "x": 14,
         "y": 0
       },
       "id": 27,
@@ -487,8 +546,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 18,
+        "w": 2,
+        "x": 16,
         "y": 0
       },
       "id": 26,
@@ -525,7 +584,6 @@
       "type": "stat"
     },
     {
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -536,8 +594,12 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
@@ -546,11 +608,11 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 21,
+        "w": 2,
+        "x": 18,
         "y": 0
       },
-      "id": 28,
+      "id": 39,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -573,14 +635,136 @@
             "uid": "myK-hBf7k"
           },
           "exemplar": true,
-          "expr": "ise_authenticated_guests{}",
-          "instant": false,
+          "expr": "ise_misconfigured_count{type=\"misconfigured_nas\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Authenticated Guests",
+      "title": "Misconfigured NAS",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 20,
+        "y": 0
+      },
+      "id": 38,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_misconfigured_count{type=\"misconfigured_supplicant\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Misconfigured Supplicants",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 22,
+        "y": 0
+      },
+      "id": 40,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_top_compromised_endpoints_count{status=\"connected\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Connect Compromised Endpoints",
       "type": "stat"
     },
     {
@@ -967,7 +1151,7 @@
       },
       "gridPos": {
         "h": 13,
-        "w": 7,
+        "w": 4,
         "x": 4,
         "y": 12
       },
@@ -1021,8 +1205,125 @@
       },
       "gridPos": {
         "h": 13,
-        "w": 6,
+        "w": 3,
+        "x": 8,
+        "y": 12
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_logical_profiles{}",
+          "interval": "",
+          "legendFormat": "{{logical_profile}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Logical Profiles",
+      "type": "piechart"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 3,
         "x": 11,
+        "y": 12
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_endpoint_identity_groups{}",
+          "interval": "",
+          "legendFormat": "{{identity_group}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Endpoint Identity Groups",
+      "type": "piechart"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 4,
+        "x": 14,
         "y": 12
       },
       "id": 11,
@@ -1118,8 +1419,8 @@
       },
       "gridPos": {
         "h": 13,
-        "w": 7,
-        "x": 17,
+        "w": 6,
+        "x": 18,
         "y": 12
       },
       "id": 12,
@@ -1151,6 +1452,7 @@
       "type": "timeseries"
     },
     {
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1169,11 +1471,11 @@
       },
       "gridPos": {
         "h": 12,
-        "w": 4,
+        "w": 3,
         "x": 0,
         "y": 25
       },
-      "id": 14,
+      "id": 30,
       "options": {
         "legend": {
           "displayMode": "list",
@@ -1200,16 +1502,106 @@
             "uid": "myK-hBf7k"
           },
           "exemplar": true,
-          "expr": "ise_logical_profiles{}",
+          "expr": "ise_top_threats_by_severity_count{status=\"all\"}",
           "interval": "",
-          "legendFormat": "{{logical_profile}}",
+          "legendFormat": "{{severity}}",
           "refId": "A"
         }
       ],
-      "title": "Logical Profiles",
+      "title": "Endpoint Threats by Severity",
+      "transformations": [],
       "type": "piechart"
     },
     {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 5,
+        "x": 3,
+        "y": 25
+      },
+      "id": 31,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_top_threats_by_severity_count{status=\"all\"}",
+          "interval": "",
+          "legendFormat": "{{severity}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Endpoint Threats by Severity Over Time",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1222,17 +1614,18 @@
               "viz": false
             }
           },
-          "mappings": []
+          "mappings": [],
+          "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 12,
-        "w": 4,
-        "x": 4,
+        "w": 3,
+        "x": 8,
         "y": 25
       },
-      "id": 16,
+      "id": 32,
       "options": {
         "legend": {
           "displayMode": "list",
@@ -1248,6 +1641,182 @@
         },
         "tooltip": {
           "mode": "single",
+          "sort": "asc"
+        }
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "sort(ise_top_threats_by_threat_count{status=\"connected\"})",
+          "interval": "",
+          "legendFormat": "{{threat_name}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Endpoint Threats by Threat Type",
+      "transformations": [],
+      "type": "piechart"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 7,
+        "x": 11,
+        "y": 25
+      },
+      "id": 33,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "sort(ise_top_threats_by_threat_count{status=\"connected\"})",
+          "interval": "",
+          "legendFormat": "{{threat_name}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Endpoint Threats by Threat Type Over Time",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": 120000,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 2,
+        "x": 18,
+        "y": 25
+      },
+      "id": 35,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
           "sort": "none"
         }
       },
@@ -1258,14 +1827,163 @@
             "uid": "myK-hBf7k"
           },
           "exemplar": true,
-          "expr": "ise_endpoint_identity_groups{}",
+          "expr": "ise_radius_repeat_count{}",
           "interval": "",
-          "legendFormat": "{{identity_group}}",
+          "legendFormat": "RADIUS Repeat Count",
           "refId": "A"
         }
       ],
-      "title": "Endpoint Identity Groups",
-      "type": "piechart"
+      "title": "RADIUS Repeat Count",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed",
+            "seriesBy": "last"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": 120000,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 2,
+        "x": 20,
+        "y": 25
+      },
+      "id": 36,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_radius_drop_count{}",
+          "interval": "",
+          "legendFormat": "RADIUS Drop Count",
+          "refId": "A"
+        }
+      ],
+      "title": "RADIUS Drop Count",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "continuous-GrYlRd",
+            "seriesBy": "last"
+          },
+          "displayName": "RADIUS Drops (%)",
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 2,
+        "x": 22,
+        "y": 25
+      },
+      "id": 41,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "myK-hBf7k"
+          },
+          "exemplar": true,
+          "expr": "ise_radius_drop_percent{}",
+          "interval": "",
+          "legendFormat": "RADIUS Drop Count",
+          "refId": "A"
+        }
+      ],
+      "type": "gauge"
     }
   ],
   "refresh": "",
