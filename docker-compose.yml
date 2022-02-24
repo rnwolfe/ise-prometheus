@@ -8,6 +8,10 @@ services:
       context: ./ise-exporter
     ports:
       - 3000:3000
+    environment:
+      - ISE_HOST=dcloud-ise-sim-inst-rtp.cisco.com
+      - ISE_USER=admin
+      - ISE_PASS=C1sco12345
     restart: always
   prometheus:
     image: prom/prometheus
